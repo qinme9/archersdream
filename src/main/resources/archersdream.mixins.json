@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "com.qinme.archersdream.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "ArrowProjectileCollisionMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}
