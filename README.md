@@ -1,54 +1,56 @@
 # Archer's Dream
 
-Archer's Dream 是一个面向 NeoForge 1.21.1 的 Minecraft 模组。
+**English** | [中文](README_zh.md)
 
-它主要做一件事：让箭矢在飞行时按照方块“看得见的实体部分”进行碰撞判定，而不是被方块原本较粗糙的碰撞盒挡住。也就是说，箭可以穿过栅栏缝隙、门上的小窗、钟的内部等空心位置，但射中真实存在的木条、铁条、门板或钟壁时仍然会被挡住。
+Archer's Dream is a Minecraft mod for NeoForge 1.21.1.
 
-## 功能
+It makes arrow collision follow the visible solid parts of blocks, so arrows can pass through gaps in fences, windows in doors, and the hollow interior of bells—while still being stopped by actual wood, iron bars, door panels, or bell walls.
 
-- 所有箭矢（不包括三叉戟）都可以穿过栅栏和栅栏门的空隙
-- 可以穿过铁栏杆的条状空隙
-- 可以穿过门和活版门纹理上的小窗
-- 可以穿过墙的视觉空隙
-- 可以穿过钟（Bell）的空心内部
-- 玻璃板、染色玻璃板仍保持正常的连续薄板碰撞，不会因为透明就被穿透
-- 为常用方块增加了按状态缓存，减少箭矢飞行时的重复形状计算
+## Features
 
-## 支持处理的方块
+- All arrows (excluding tridents) can pass through gaps in fences and fence gates
+- Can pass through the bar gaps in iron bars
+- Can pass through small windows in door and trapdoor textures
+- Can pass through visual gaps in walls
+- Can pass through the hollow interior of bells
+- Glass panes and stained glass panes keep their normal thin solid collision
+- Caches common block-state shapes to reduce repeated calculation while arrows are flying
 
-| 方块类型 | 效果 |
+## Supported Blocks
+
+| Block | Effect |
 | --- | --- |
-| 栅栏 | 按中心柱和上下横条判定，可穿过横条之间的空隙 |
-| 栅栏门 | 按门扇立柱和横条判定，关闭时也可穿过门扇空隙 |
-| 铁栏杆 | 按纹理中的竖条和横条判定，可穿过条状空隙 |
-| 墙 | 按视觉形状判定，可穿过上方或侧面的视觉空隙 |
-| 门 | 扣除门板纹理上的小窗区域 |
-| 活版门 | 扣除活版门纹理上的小窗区域 |
-| 钟（Bell） | 使用空心钟体加支架的精细碰撞 |
+| Fence | Uses centre posts plus upper/lower rails, so arrows can pass between rails |
+| Fence Gate | Uses gate posts and rails; arrows can pass through gaps even when closed |
+| Iron Bars | Uses vertical/horizontal bar strips from the texture, leaving gaps for arrows |
+| Wall | Uses visual shape, allowing arrows through upper/side visual gaps |
+| Door | Removes the small transparent window regions from the door texture |
+| Trapdoor | Removes the small transparent window regions from the trapdoor texture |
+| Bell | Uses a hollow bell body plus attachment collision |
 
-## 工作原理
+## How It Works
 
-Minecraft 原版箭矢在判定是否撞到方块时，使用的是方块的普通碰撞形状。栅栏、铁栏杆、墙、钟等方块的普通碰撞形状往往比实际模型更“满”，所以箭明明瞄准的是空隙，却会被看不见的碰撞盒挡住。
+Vanilla arrows use the normal block collision shape when checking whether they hit a block. Blocks like fences, iron bars, walls, and bells often have collision shapes that are more filled-in than their actual models, so arrows aimed at a gap can hit an invisible box.
 
-本模组通过 Mixin 拦截方块碰撞形状查询：
+This mod uses a Mixin to intercept block collision shape queries:
 
-- 只有当请求方是箭类投射物（不包括三叉戟）时，才会替换成更精细的箭矢专用碰撞形状
-- 玩家、生物和其它投射物仍使用原版碰撞形状
+- The refined arrow shape is only used when the entity is an arrow-type projectile (not a trident)
+- Players, mobs, and other projectiles keep the vanilla behaviour
 
-门和活版门的小窗处理方式略有不同：门板本身是完整薄片，但纹理上有透明窗口。模组内置了原版门/活版门纹理的窗口数据，生成碰撞箱时会把小窗区域从门板中扣除。
+Doors and trapdoors are handled slightly differently. Their models are solid thin slabs, but their textures have transparent windows. This mod includes the vanilla window data and subtracts those window areas from the collision shape.
 
-## 目录结构
+## Project Structure
 
 ```text
 src/main/java/com/qinme/archersdream/
-├── ArchersDream.java                 # 模组主类
+├── ArchersDream.java                 # Main mod class
 ├── mixin/
 │   └── ArrowProjectileCollisionMixin.java
 └── util/
-    ├── ArrowBlockShapes.java         # 箭矢专用方块碰撞形状
-    └── DoorWindowShapes.java         # 门/活版门纹理小窗数据
+    ├── ArrowBlockShapes.java         # Arrow-specific block collision shapes
+    └── DoorWindowShapes.java         # Door/trapdoor texture window data
 ```
 
-## 开源许可
+## License
 
-本项目使用 MIT License，详见 [LICENSE](LICENSE)。
+This project is licensed under the MIT License. See [LICENSE](LICENSE).
