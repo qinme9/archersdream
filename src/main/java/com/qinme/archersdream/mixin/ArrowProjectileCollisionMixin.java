@@ -2,8 +2,8 @@ package com.qinme.archersdream.mixin;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.projectile.Arrow;
-import net.minecraft.world.entity.projectile.SpectralArrow;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.ThrownTrident;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -32,7 +32,7 @@ public abstract class ArrowProjectileCollisionMixin {
     ) {
         if (context instanceof EntityCollisionContext entityCollisionContext) {
             Entity entity = entityCollisionContext.getEntity();
-            if (entity instanceof Arrow || entity instanceof SpectralArrow) {
+            if (entity instanceof AbstractArrow && !(entity instanceof ThrownTrident)) {
                 BlockState state = (BlockState) (Object) this;
                 VoxelShape arrowShape = ArrowBlockShapes.getArrowShape(state, level, pos);
                 if (arrowShape != null) {
