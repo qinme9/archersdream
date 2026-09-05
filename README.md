@@ -1,25 +1,30 @@
+# Archer's Dream
 
-Installation information
-=======
+Archer's Dream 是一个 NeoForge 1.21.1 模组，目标是让箭矢能穿过方块上的真实空隙，而不是被粗略的碰撞盒挡住。
 
-This template repository can be directly cloned to get you started with a new
-mod. Simply create a new repository cloned from this one, by following the
-instructions provided by [GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
+## 功能
 
-Once you have your clone, simply open the repository in the IDE of your choice. The usual recommendation for an IDE is either IntelliJ IDEA or Eclipse.
+- 普通箭和光灵箭可以穿过栅栏、栅栏门、铁栏杆、墙的空隙
+- 可以穿过门和活版门上的小窗
+- 钟（Bell）使用空心碰撞，箭矢可以穿过内部
+- 只会影响普通箭和光灵箭，不影响玩家、生物、物品、其它投射物和原版机制
 
-If at any point you are missing libraries in your IDE, or you've run into problems you can
-run `gradlew --refresh-dependencies` to refresh the local cache. `gradlew clean` to reset everything 
-{this does not affect your code} and then start the process again.
+## 安装
 
-Mapping Names:
-============
-By default, the MDK is configured to use the official mapping names from Mojang for methods and fields 
-in the Minecraft codebase. These names are covered by a specific license. All modders should be aware of this
-license. For the latest license text, refer to the mapping file itself, or the reference copy here:
-https://github.com/NeoForged/NeoForm/blob/main/Mojang.md
+1. 安装 NeoForge 1.21.1
+2. 将 `archersdream-1.0.0.jar` 放入 `mods` 文件夹
+3. 启动游戏
 
-Additional Resources: 
-==========
-Community Documentation: https://docs.neoforged.net/  
-NeoForged Discord: https://discord.neoforged.net/
+## 构建
+
+需要 JDK 21：
+
+```bash
+./gradlew build
+```
+
+构建产物位于 `build/libs/archersdream-1.0.0.jar`。
+
+## 许可
+
+MIT License
